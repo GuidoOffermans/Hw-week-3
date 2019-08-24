@@ -44,7 +44,7 @@ class App extends Component {
 	handleAddButton = () => {
 		console.log('Button clicked', this.props);
 		const modelToSend = this.state.data.find((model) => model.name === this.state.value);
-		console.log(modelToSend);
+		console.log('SENDING THIS MODEL:',modelToSend);
 		this.props.addModel(modelToSend);
 	};
 
@@ -55,16 +55,11 @@ class App extends Component {
 			<div className="App">
 				<select value={this.state.value} onChange={this.updateSelection}>
 					<option>{`>-- pick a model --<`}</option>
-					{data.map((dataItem) => {
-						{
-							/* console.log(dataItem) */
-						}
-						return (
-							<option key={dataItem.name} value={dataItem.name}>
-								{`${dataItem.name} (${dataItem.year})`}
-							</option>
-						);
-					})}
+					{data.map((dataItem) => (
+						<option key={dataItem.name} value={dataItem.name}>
+							{`${dataItem.name} (${dataItem.year})`}
+						</option>
+					))}
 				</select>
 				<button onClick={this.handleAddButton}>Add</button>
 			</div>
