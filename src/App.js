@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
 import { connect } from 'react-redux';
+import './App.css';
 
 import { addModel } from './redux/actions/models';
+import ModelDetails from './components/ModelDetails/ModelDetails';
 
 class App extends Component {
 	state = {
@@ -37,23 +38,28 @@ class App extends Component {
 
 	updateSelection = (event) => {
 		event.preventDefault();
-		console.log('update', event.target.value);
 		this.setState({ value: event.target.value });
 	};
 
 	handleAddButton = () => {
-		console.log('Button clicked', this.props);
-		const modelToSend = this.state.data.find((model) => model.name === this.state.value);
-		console.log('SENDING THIS MODEL:',modelToSend);
+		const modelToSend = this.state.data.find(
+			(model) => model.name === this.state.value
+		);
 		this.props.addModel(modelToSend);
 	};
 
 	render() {
-		console.log('NEW STATE:', this.state.value);
 		const { data } = this.state;
+		const { models } = this.props;
 		return (
 			<div className="App">
-				<select value={this.state.value} onChange={this.updateSelection}>
+				{models.map((model) => (
+					<ModelDetails key={model.name} model={model} />
+				))}
+				<select
+					value={this.state.value}
+					onChange={this.updateSelection}
+				>
 					<option>{`>-- pick a model --<`}</option>
 					{data.map((dataItem) => (
 						<option key={dataItem.name} value={dataItem.name}>
@@ -68,7 +74,9 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-	return {};
+	return {
+		models: state.models
+	};
 };
 
 export default connect(mapStateToProps, { addModel })(App);
