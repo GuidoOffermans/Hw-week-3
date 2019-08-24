@@ -54,7 +54,13 @@ class App extends Component {
 		return (
 			<div className="App">
 				{models.map((model) => (
-					<ModelDetails key={model.name} model={model} />
+					<ModelDetails
+						key={model.name}
+						name={model.name}
+						manufacturer={model.manufacturer}
+						year={model.year}
+						origin={model.origin}
+					/>
 				))}
 				<select
 					value={this.state.value}
